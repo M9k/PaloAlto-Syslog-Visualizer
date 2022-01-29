@@ -1,4 +1,6 @@
-﻿namespace PaloAlto_syslog_visualizer
+﻿using System.Windows.Forms;
+
+namespace PaloAlto_syslog_visualizer
 {
     partial class FormMain
     {
@@ -32,8 +34,6 @@
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonClean = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.ColumnGeneratedTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnSourceAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelSouceAddress = new System.Windows.Forms.Label();
             this.textBoxSouceAddress = new System.Windows.Forms.TextBox();
             this.labelNota = new System.Windows.Forms.Label();
@@ -72,24 +72,10 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnGeneratedTime,
-            this.ColumnSourceAddress});
             this.dataGridView1.Location = new System.Drawing.Point(43, 386);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(962, 257);
             this.dataGridView1.TabIndex = 3;
-            // 
-            // ColumnGeneratedTime
-            // 
-            this.ColumnGeneratedTime.HeaderText = "Generated Time";
-            this.ColumnGeneratedTime.Name = "ColumnGeneratedTime";
-            // 
-            // ColumnSourceAddress
-            // 
-            this.ColumnSourceAddress.HeaderText = "Source Address";
-            this.ColumnSourceAddress.Name = "ColumnSourceAddress";
-            this.ColumnSourceAddress.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // labelSouceAddress
             // 
@@ -141,6 +127,7 @@
             this.Controls.Add(this.labelDebug);
             this.Name = "FormMain";
             this.Text = "PaloAlto Syslog Visualizer";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -154,12 +141,23 @@
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonClean;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGeneratedTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSourceAddress;
         private System.Windows.Forms.Label labelSouceAddress;
         private System.Windows.Forms.TextBox textBoxSouceAddress;
         private System.Windows.Forms.Label labelNota;
         private System.Windows.Forms.Button buttonPauseStartCapture;
+
+        public void SetLabelDebug(string text)
+        {
+            // using labelDebug after destroy the form (closing the app) it try to access a destroyed form
+            try
+            {
+                this.Invoke(new MethodInvoker(delegate { labelDebug.Text = text; }));
+            }
+            catch
+            {
+                ;
+            }
+        }
     }
 }
 
