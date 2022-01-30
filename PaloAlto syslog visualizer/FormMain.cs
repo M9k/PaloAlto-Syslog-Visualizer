@@ -29,36 +29,36 @@ namespace PaloAlto_syslog_visualizer
             labelDebug.Text = "asdasdasd as das das da adas das das das das\nasd asd asd as das a \n asd asdasd";
 
             DataTable dt = new DataTable();
-            dt.Columns.Add("field1", typeof(string));
-            dt.Columns.Add("field2", typeof(string));
-            dt.Columns.Add("field3", typeof(string));
-            dt.Columns.Add("field4", typeof(string));
-            dt.Columns.Add("field5", typeof(string));
-            dt.Columns.Add("field6", typeof(string));
-            dt.Columns.Add("field7", typeof(string));
-            dt.Columns.Add("field8", typeof(string));
-            dt.Columns.Add("field9", typeof(string));
-            dt.Columns.Add("field10", typeof(string));
-            dt.Columns.Add("field11", typeof(string));
-            dt.Columns.Add("field12", typeof(string));
-            dt.Columns.Add("field13", typeof(string));
-            dt.Columns.Add("field14", typeof(string));
-            dt.Columns.Add("field15", typeof(string));
-            dt.Columns.Add("field16", typeof(string));
-            dt.Columns.Add("field17", typeof(string));
-            dt.Columns.Add("field18", typeof(string));
-            dt.Columns.Add("field19", typeof(string));
-            dt.Columns.Add("field20", typeof(string));
-            dt.Columns.Add("field21", typeof(string));
-            dt.Columns.Add("field22", typeof(string));
-            dt.Columns.Add("field23", typeof(string));
-            dt.Columns.Add("field24", typeof(string));
-            dt.Columns.Add("field25", typeof(string));
-            dt.Columns.Add("field26", typeof(string));
-            dt.Columns.Add("field27", typeof(string));
-            dt.Columns.Add("field28", typeof(string));
-            dt.Columns.Add("field29", typeof(string));
-            dt.Columns.Add("field30", typeof(string));
+            dt.Columns.Add("Receive Time", typeof(string));
+            dt.Columns.Add("Source Address", typeof(string));
+            dt.Columns.Add("Destination Address", typeof(string));
+            dt.Columns.Add("NAT Source IP", typeof(string));
+            dt.Columns.Add("NAT Destination Address", typeof(string));
+            dt.Columns.Add("Rule Name", typeof(string));
+            dt.Columns.Add("Destination User", typeof(string));
+            dt.Columns.Add("Application", typeof(string));
+            dt.Columns.Add("Source Zone", typeof(string));
+            dt.Columns.Add("Destination Zone", typeof(string));
+            dt.Columns.Add("Inbound Interface", typeof(string));
+            dt.Columns.Add("Outbound Interface", typeof(string));
+            dt.Columns.Add("Sessione ID", typeof(string));
+            dt.Columns.Add("Source Port", typeof(string));
+            dt.Columns.Add("Destioantion Port", typeof(string));
+            dt.Columns.Add("NAT Source Port", typeof(string));
+            dt.Columns.Add("NAT Destionation Port", typeof(string));
+            dt.Columns.Add("Flags", typeof(string));
+            dt.Columns.Add("Protocol", typeof(string));
+            dt.Columns.Add("Action", typeof(string));
+            dt.Columns.Add("Bytes", typeof(string));
+            dt.Columns.Add("Bytes Received", typeof(string));
+            dt.Columns.Add("Bytes Sent", typeof(string));
+            dt.Columns.Add("Packets", typeof(string));
+            dt.Columns.Add("Elapsed Time", typeof(string));
+            dt.Columns.Add("Category", typeof(string));
+            dt.Columns.Add("Packets Sent", typeof(string));
+            dt.Columns.Add("Packets Received", typeof(string));
+            dt.Columns.Add("Session End Reason", typeof(string));
+            dt.Columns.Add("Action Source", typeof(string));
 
             for (int i =0; i<50; i++)
                 dt.Rows.Add(Program.database[i].getAll);
@@ -67,7 +67,7 @@ namespace PaloAlto_syslog_visualizer
             //    dt.Rows.Add(ts.getAll);
             //}
 
-            dataGridView1.DataSource = dt;
+            dataGridViewLogs.DataSource = dt;
 
         }
 

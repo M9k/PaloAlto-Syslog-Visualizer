@@ -16,6 +16,9 @@ namespace PaloAlto_syslog_visualizer
         static FormMain formMain;
         static UdpClient udpListener;
         static public StructEntryLog[] database;
+        static public int databaseSize = 100000;
+        static public int databaseIndexLastItem = 0;
+        static public bool databaseOverwrite = false;
 
         /// <summary>
         /// The main entry point for the application.
@@ -38,8 +41,8 @@ namespace PaloAlto_syslog_visualizer
 
             // StructEntryLog test = new StructEntryLog("a","b","c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c");
 
-            database = new StructEntryLog[1000000];
-            for (int i = 0; i < database.Length; i++)
+            database = new StructEntryLog[databaseSize];
+            for (int i = 0; i < databaseSize; i++)
                 database[i] = new StructEntryLog("a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c");
 
             receiveThread = new Thread(ThreadReceive);
@@ -73,7 +76,49 @@ namespace PaloAlto_syslog_visualizer
                     sourceIP = anyIP.Address.ToString();
                     //new Thread(new logHandler(sourceIP, sReceive).handleLog).Start();
                     // TODO: Faccio con un nuovo thread che aggiorna l'interfaccia o no?
-                    new Thread(() => { formMain.SetLabelDebug(sReceive); }).Start();
+                    new Thread(() => {
+                        formMain.SetLabelDebug(sReceive);
+                        string[] receivedData = sReceive.Split(',');
+
+                        database[databaseIndexLastItem].strAction = receivedData[30];
+                        database[databaseIndexLastItem].strActionSource = receivedData[53];
+                        database[databaseIndexLastItem].strApplication = receivedData[14];
+                        database[databaseIndexLastItem].strBytes = receivedData[31];
+                        database[databaseIndexLastItem].strBytesReceived = receivedData[32];
+                        database[databaseIndexLastItem].strBytesSent = receivedData[33];
+                        database[databaseIndexLastItem].strCategory = receivedData[37];
+                        database[databaseIndexLastItem].strDentinationZone = receivedData[17];
+                        database[databaseIndexLastItem].strDestinationAddress = receivedData[8];
+                        database[databaseIndexLastItem].strDestinationPort = receivedData[25];
+                        database[databaseIndexLastItem].strElapsedTime = receivedData[36];
+                        database[databaseIndexLastItem].strFlags = receivedData[28];
+                        database[databaseIndexLastItem].strInboundInterface = receivedData[18];
+                        database[databaseIndexLastItem].strNatDestinationIP = receivedData[8];
+                        database[databaseIndexLastItem].strNATDestinationPort = receivedData[10];
+                        database[databaseIndexLastItem].strNATSourceIP = receivedData[9];
+                        database[databaseIndexLastItem].strNATSourcePort = receivedData[26];
+                        database[databaseIndexLastItem].strOutboundInterface = receivedData[19];
+                        database[databaseIndexLastItem].strPackets = receivedData[34];
+                        database[databaseIndexLastItem].strPacketsReceived = receivedData[45];
+                        database[databaseIndexLastItem].strPacketsSent = receivedData[44];
+                        database[databaseIndexLastItem].strProtocol = receivedData[29];
+                        database[databaseIndexLastItem].strReceiveTime = receivedData[1];
+                        database[databaseIndexLastItem].strRuleName = receivedData[11];
+                        database[databaseIndexLastItem].strSessionEndReason = receivedData[46];
+                        database[databaseIndexLastItem].strSessionID = receivedData[22];
+                        database[databaseIndexLastItem].strSourceAddress = receivedData[7];
+                        database[databaseIndexLastItem].strSourcePort = receivedData[24];
+                        database[databaseIndexLastItem].strSourceUser = receivedData[13];
+                        database[databaseIndexLastItem].strSourceZone = receivedData[16];
+
+                        databaseIndexLastItem++;
+                        if (databaseIndexLastItem == databaseSize)
+                        {
+                            databaseIndexLastItem = 0;
+                            databaseOverwrite = true;
+                        }
+
+                    }).Start();
                     /* Start a new thread to handle received syslog event */
                 }
                 catch (Exception ex) { formMain.SetLabelDebug(ex.ToString()); }

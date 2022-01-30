@@ -33,18 +33,20 @@ namespace PaloAlto_syslog_visualizer
             this.labelDebug = new System.Windows.Forms.Label();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonClean = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewLogs = new System.Windows.Forms.DataGridView();
             this.labelSouceAddress = new System.Windows.Forms.Label();
             this.textBoxSouceAddress = new System.Windows.Forms.TextBox();
             this.labelNota = new System.Windows.Forms.Label();
             this.buttonPauseStartCapture = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panelLogs = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLogs)).BeginInit();
+            this.panelLogs.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelDebug
             // 
             this.labelDebug.AutoSize = true;
-            this.labelDebug.Location = new System.Drawing.Point(50, 29);
+            this.labelDebug.Location = new System.Drawing.Point(12, 762);
             this.labelDebug.Name = "labelDebug";
             this.labelDebug.Size = new System.Drawing.Size(61, 13);
             this.labelDebug.TabIndex = 0;
@@ -69,18 +71,21 @@ namespace PaloAlto_syslog_visualizer
             this.buttonClean.Text = "Clean";
             this.buttonClean.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridViewLogs
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(43, 386);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(962, 257);
-            this.dataGridView1.TabIndex = 3;
+            this.dataGridViewLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewLogs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewLogs.Location = new System.Drawing.Point(3, 65);
+            this.dataGridViewLogs.Name = "dataGridViewLogs";
+            this.dataGridViewLogs.Size = new System.Drawing.Size(1466, 650);
+            this.dataGridViewLogs.TabIndex = 3;
             // 
             // labelSouceAddress
             // 
             this.labelSouceAddress.AutoSize = true;
-            this.labelSouceAddress.Location = new System.Drawing.Point(181, 344);
+            this.labelSouceAddress.Location = new System.Drawing.Point(151, 14);
             this.labelSouceAddress.Name = "labelSouceAddress";
             this.labelSouceAddress.Size = new System.Drawing.Size(82, 13);
             this.labelSouceAddress.TabIndex = 4;
@@ -88,7 +93,7 @@ namespace PaloAlto_syslog_visualizer
             // 
             // textBoxSouceAddress
             // 
-            this.textBoxSouceAddress.Location = new System.Drawing.Point(184, 360);
+            this.textBoxSouceAddress.Location = new System.Drawing.Point(154, 30);
             this.textBoxSouceAddress.Name = "textBoxSouceAddress";
             this.textBoxSouceAddress.Size = new System.Drawing.Size(100, 20);
             this.textBoxSouceAddress.TabIndex = 5;
@@ -96,7 +101,7 @@ namespace PaloAlto_syslog_visualizer
             // labelNota
             // 
             this.labelNota.AutoSize = true;
-            this.labelNota.Location = new System.Drawing.Point(12, 766);
+            this.labelNota.Location = new System.Drawing.Point(9, 861);
             this.labelNota.Name = "labelNota";
             this.labelNota.Size = new System.Drawing.Size(245, 13);
             this.labelNota.TabIndex = 6;
@@ -112,16 +117,27 @@ namespace PaloAlto_syslog_visualizer
             this.buttonPauseStartCapture.UseVisualStyleBackColor = true;
             this.buttonPauseStartCapture.Click += new System.EventHandler(this.buttonPauseStartCapture_Click);
             // 
+            // panelLogs
+            // 
+            this.panelLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelLogs.Controls.Add(this.dataGridViewLogs);
+            this.panelLogs.Controls.Add(this.textBoxSouceAddress);
+            this.panelLogs.Controls.Add(this.labelSouceAddress);
+            this.panelLogs.Location = new System.Drawing.Point(12, 41);
+            this.panelLogs.Name = "panelLogs";
+            this.panelLogs.Size = new System.Drawing.Size(1472, 718);
+            this.panelLogs.TabIndex = 8;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1183, 788);
+            this.ClientSize = new System.Drawing.Size(1496, 883);
+            this.Controls.Add(this.panelLogs);
             this.Controls.Add(this.buttonPauseStartCapture);
             this.Controls.Add(this.labelNota);
-            this.Controls.Add(this.textBoxSouceAddress);
-            this.Controls.Add(this.labelSouceAddress);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttonClean);
             this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.labelDebug);
@@ -129,7 +145,9 @@ namespace PaloAlto_syslog_visualizer
             this.Text = "PaloAlto Syslog Visualizer";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLogs)).EndInit();
+            this.panelLogs.ResumeLayout(false);
+            this.panelLogs.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,7 +158,7 @@ namespace PaloAlto_syslog_visualizer
         private System.Windows.Forms.Label labelDebug;
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonClean;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewLogs;
         private System.Windows.Forms.Label labelSouceAddress;
         private System.Windows.Forms.TextBox textBoxSouceAddress;
         private System.Windows.Forms.Label labelNota;
@@ -158,6 +176,8 @@ namespace PaloAlto_syslog_visualizer
                 ;
             }
         }
+
+        private Panel panelLogs;
     }
 }
 
