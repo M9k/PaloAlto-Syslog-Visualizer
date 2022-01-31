@@ -39,7 +39,7 @@ namespace PaloAlto_syslog_visualizer
 
         internal static void resetDB()
         {
-            databaseIndexLastItem = 0;
+            databaseIndexLastItem = -1;
             databaseTotalWrite = 0;
             databaseOverwrite = false;
         }
