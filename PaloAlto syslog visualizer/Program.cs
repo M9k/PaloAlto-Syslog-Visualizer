@@ -12,12 +12,13 @@ namespace PaloAlto_syslog_visualizer
 {
     internal static class Program
     {
-        static Thread receiveThread;
+        static Thread receiveThread, statusRefresh;
         static FormMain formMain;
         static UdpClient udpListener;
         static public StructEntryLog[] database;
-        static public int databaseSize = 100000;
-        static public int databaseIndexLastItem = 0;
+        static public uint databaseSize = 100000;
+        static public int databaseIndexLastItem = -1;
+        static public uint databaseTotalWrite = 0;
         static public bool databaseOverwrite = false;
 
         /// <summary>
@@ -31,10 +32,17 @@ namespace PaloAlto_syslog_visualizer
             formMain = new FormMain();
 
             StartCapture();
+            StartStatusRefresh();
 
             Application.Run(formMain);
         }
 
+        internal static void resetDB()
+        {
+            databaseIndexLastItem = 0;
+            databaseTotalWrite = 0;
+            databaseOverwrite = false;
+        }
 
         internal static void StartCapture()
         {
@@ -47,14 +55,38 @@ namespace PaloAlto_syslog_visualizer
 
             receiveThread = new Thread(ThreadReceive);
             receiveThread.Start();
+            formMain.SetCaptureStatus(true);
+        }
+
+        internal static void StartStatusRefresh()
+        {
+            statusRefresh = new Thread(ThreadRefresh);
+            statusRefresh.Start();
         }
 
         internal static void StopCapture()
         {
             receiveThread.Abort(new object());
             udpListener.Close();
+            formMain.SetCaptureStatus(false);
+        }
+        internal static void StopRefresh()
+        {
+            statusRefresh.Abort(new object());
         }
 
+
+        public static void ThreadRefresh()
+        {
+            while(true)
+            {
+                Thread.Sleep(1000);
+                if (databaseIndexLastItem > -1)
+                    formMain.SetStatusValues((uint)databaseIndexLastItem+1, databaseTotalWrite);
+                else
+                    formMain.SetStatusValues(0, databaseTotalWrite);
+            }
+        }
         public static void ThreadReceive()
         {
             IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
@@ -79,6 +111,9 @@ namespace PaloAlto_syslog_visualizer
                     new Thread(() => {
                         formMain.SetLabelDebug(sReceive);
                         string[] receivedData = sReceive.Split(',');
+
+                        databaseIndexLastItem++;
+                        databaseTotalWrite++;
 
                         database[databaseIndexLastItem].strAction = receivedData[30];
                         database[databaseIndexLastItem].strActionSource = receivedData[53];
@@ -111,7 +146,6 @@ namespace PaloAlto_syslog_visualizer
                         database[databaseIndexLastItem].strSourceUser = receivedData[13];
                         database[databaseIndexLastItem].strSourceZone = receivedData[16];
 
-                        databaseIndexLastItem++;
                         if (databaseIndexLastItem == databaseSize)
                         {
                             databaseIndexLastItem = 0;

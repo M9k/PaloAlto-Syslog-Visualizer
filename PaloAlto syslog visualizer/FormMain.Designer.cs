@@ -36,11 +36,15 @@ namespace PaloAlto_syslog_visualizer
             this.dataGridViewLogs = new System.Windows.Forms.DataGridView();
             this.labelSouceAddress = new System.Windows.Forms.Label();
             this.textBoxSouceAddress = new System.Windows.Forms.TextBox();
-            this.labelNota = new System.Windows.Forms.Label();
             this.buttonPauseStartCapture = new System.Windows.Forms.Button();
             this.panelLogs = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusBuffer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusTotal = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusSyslog = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLogs)).BeginInit();
             this.panelLogs.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelDebug
@@ -54,7 +58,7 @@ namespace PaloAlto_syslog_visualizer
             // 
             // buttonRefresh
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(1096, 12);
+            this.buttonRefresh.Location = new System.Drawing.Point(1409, 12);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(75, 23);
             this.buttonRefresh.TabIndex = 1;
@@ -64,12 +68,13 @@ namespace PaloAlto_syslog_visualizer
             // 
             // buttonClean
             // 
-            this.buttonClean.Location = new System.Drawing.Point(1015, 12);
+            this.buttonClean.Location = new System.Drawing.Point(1328, 12);
             this.buttonClean.Name = "buttonClean";
             this.buttonClean.Size = new System.Drawing.Size(75, 23);
             this.buttonClean.TabIndex = 2;
             this.buttonClean.Text = "Clean";
             this.buttonClean.UseVisualStyleBackColor = true;
+            this.buttonClean.Click += new System.EventHandler(this.buttonClean_Click);
             // 
             // dataGridViewLogs
             // 
@@ -98,18 +103,9 @@ namespace PaloAlto_syslog_visualizer
             this.textBoxSouceAddress.Size = new System.Drawing.Size(100, 20);
             this.textBoxSouceAddress.TabIndex = 5;
             // 
-            // labelNota
-            // 
-            this.labelNota.AutoSize = true;
-            this.labelNota.Location = new System.Drawing.Point(9, 861);
-            this.labelNota.Name = "labelNota";
-            this.labelNota.Size = new System.Drawing.Size(245, 13);
-            this.labelNota.TabIndex = 6;
-            this.labelNota.Text = "Menu in basso con lo stato del demone di cattura?";
-            // 
             // buttonPauseStartCapture
             // 
-            this.buttonPauseStartCapture.Location = new System.Drawing.Point(879, 12);
+            this.buttonPauseStartCapture.Location = new System.Drawing.Point(1189, 12);
             this.buttonPauseStartCapture.Name = "buttonPauseStartCapture";
             this.buttonPauseStartCapture.Size = new System.Drawing.Size(110, 23);
             this.buttonPauseStartCapture.TabIndex = 7;
@@ -130,14 +126,44 @@ namespace PaloAlto_syslog_visualizer
             this.panelLogs.Size = new System.Drawing.Size(1472, 718);
             this.panelLogs.TabIndex = 8;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusSyslog,
+            this.toolStripStatusBuffer,
+            this.toolStripStatusTotal});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 861);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1496, 22);
+            this.statusStrip1.TabIndex = 9;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusBuffer
+            // 
+            this.toolStripStatusBuffer.Name = "toolStripStatusBuffer";
+            this.toolStripStatusBuffer.Size = new System.Drawing.Size(56, 17);
+            this.toolStripStatusBuffer.Text = "Buffer: 0/";
+            // 
+            // toolStripStatusTotal
+            // 
+            this.toolStripStatusTotal.Name = "toolStripStatusTotal";
+            this.toolStripStatusTotal.Size = new System.Drawing.Size(69, 17);
+            this.toolStripStatusTotal.Text = "Total logs: 0";
+            // 
+            // toolStripStatusSyslog
+            // 
+            this.toolStripStatusSyslog.Name = "toolStripStatusSyslog";
+            this.toolStripStatusSyslog.Size = new System.Drawing.Size(77, 17);
+            this.toolStripStatusSyslog.Text = "Capture is on";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1496, 883);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panelLogs);
             this.Controls.Add(this.buttonPauseStartCapture);
-            this.Controls.Add(this.labelNota);
             this.Controls.Add(this.buttonClean);
             this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.labelDebug);
@@ -148,6 +174,8 @@ namespace PaloAlto_syslog_visualizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLogs)).EndInit();
             this.panelLogs.ResumeLayout(false);
             this.panelLogs.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,7 +189,6 @@ namespace PaloAlto_syslog_visualizer
         private System.Windows.Forms.DataGridView dataGridViewLogs;
         private System.Windows.Forms.Label labelSouceAddress;
         private System.Windows.Forms.TextBox textBoxSouceAddress;
-        private System.Windows.Forms.Label labelNota;
         private System.Windows.Forms.Button buttonPauseStartCapture;
 
         public void SetLabelDebug(string text)
@@ -177,7 +204,24 @@ namespace PaloAlto_syslog_visualizer
             }
         }
 
+        public void SetStatusValues(uint buffer, uint total)
+        {
+            this.toolStripStatusBuffer.Text = "Buffer: "+buffer+"/" + Program.databaseSize;
+            this.toolStripStatusTotal.Text = "Total logs: "+total;
+        }
+        public void SetCaptureStatus(bool capturing)
+        {
+            if (capturing)
+                this.toolStripStatusSyslog.Text = "Capture is on";
+            else
+                this.toolStripStatusSyslog.Text = "Capture is off";
+        }
+
         private Panel panelLogs;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusBuffer;
+        private ToolStripStatusLabel toolStripStatusTotal;
+        private ToolStripStatusLabel toolStripStatusSyslog;
     }
 }
 
