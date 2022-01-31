@@ -16,7 +16,7 @@ namespace PaloAlto_syslog_visualizer
         static FormMain formMain;
         static UdpClient udpListener;
         static public StructEntryLog[] database;
-        static public uint databaseSize = 100000;
+        static public uint databaseSize = 10000;
         static public int databaseIndexLastItem = -1;
         static public uint databaseTotalWrite = 0;
         static public bool databaseOverwrite = false;
@@ -46,12 +46,13 @@ namespace PaloAlto_syslog_visualizer
 
         internal static void StartCapture()
         {
-
+            database = new StructEntryLog[databaseSize];
+            // create a fake entry - for initial testing
             // StructEntryLog test = new StructEntryLog("a","b","c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c");
 
-            database = new StructEntryLog[databaseSize];
-            for (int i = 0; i < databaseSize; i++)
-                database[i] = new StructEntryLog("a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c");
+            // use fake data - for initial testing
+            //for (int i = 0; i < databaseSize; i++)
+            //    database[i] = new StructEntryLog("a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c");
 
             receiveThread = new Thread(ThreadReceive);
             receiveThread.Start();
@@ -75,7 +76,6 @@ namespace PaloAlto_syslog_visualizer
             statusRefresh.Abort(new object());
         }
 
-
         public static void ThreadRefresh()
         {
             while(true)
@@ -87,6 +87,7 @@ namespace PaloAlto_syslog_visualizer
                     formMain.SetStatusValues(0, databaseTotalWrite);
             }
         }
+
         public static void ThreadReceive()
         {
             IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
@@ -146,7 +147,7 @@ namespace PaloAlto_syslog_visualizer
                         database[databaseIndexLastItem].strSourceUser = receivedData[13];
                         database[databaseIndexLastItem].strSourceZone = receivedData[16];
 
-                        if (databaseIndexLastItem == databaseSize)
+                        if (databaseIndexLastItem == databaseSize - 1)
                         {
                             databaseIndexLastItem = 0;
                             databaseOverwrite = true;
