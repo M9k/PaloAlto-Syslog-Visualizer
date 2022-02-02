@@ -57,7 +57,30 @@ namespace PaloAlto_syslog_visualizer
             dt.Columns.Add("Packets Received", typeof(string));
             dt.Columns.Add("Session End Reason", typeof(string));
             dt.Columns.Add("Action Source", typeof(string));
- 
+
+            bool searchBySourceAddress = false;
+            bool searchByDestinationAddress = false;
+            bool searchByDestinationPort = false;
+            bool searchByAction = false;
+            bool searchByInboundInterface = false;
+            bool searchByRuleName = false;
+            bool searchIsOn = false;
+
+            if (textBoxSouceAddress.Text != "")
+                searchBySourceAddress = true;
+            if (textBoxDestinationAddress.Text != "")
+                searchByDestinationAddress = true;
+            if (textBoxDestinationPort.Text != "")
+                searchByDestinationPort = true;
+            if (textBoxAction.Text != "")
+                searchByAction = true;
+            if (textBoxInboundInterface.Text != "")
+                searchByInboundInterface = true;
+            if (textBoxRuleName.Text != "")
+                searchByRuleName = true;
+            if (searchBySourceAddress || searchByDestinationAddress || searchByDestinationPort ||
+                searchByAction || searchByInboundInterface || searchByRuleName)
+                searchIsOn = true;
 
             int itemLeftToPrint = 50;
             int lastItemWrited = (int)Program.databaseIndexLastItem;
@@ -65,8 +88,17 @@ namespace PaloAlto_syslog_visualizer
             {
                 for (int indexDB = lastItemWrited; indexDB > 0 && itemLeftToPrint > 0; indexDB--)
                 {
-                    dt.Rows.Add(Program.database[indexDB].getAll);
-                    itemLeftToPrint--;
+                    if (searchIsOn)
+                    {
+                        // TODO: check if search condition is match
+                        // PS: check if the search is negate or not
+
+                    }
+                    else
+                    {
+                        dt.Rows.Add(Program.database[indexDB].getAll);
+                        itemLeftToPrint--;
+                    }
                 }
 
                 if (itemLeftToPrint > 0 && Program.databaseOverwrite)
@@ -74,9 +106,16 @@ namespace PaloAlto_syslog_visualizer
                     int indexDB = (int)Program.databaseSize - 1;
                     while (indexDB > lastItemWrited && itemLeftToPrint > 0)
                     {
-                        dt.Rows.Add(Program.database[indexDB].getAll);
+                        if (searchIsOn)
+                        {
+                            // TODO: check if search condition is match
+                            // PS: check if the search is negate or not
+                        }
+                        else {
+                            dt.Rows.Add(Program.database[indexDB].getAll);
+                            itemLeftToPrint--;
+                        }
                         indexDB--;
-                        itemLeftToPrint--;
                     }
                 }
             }

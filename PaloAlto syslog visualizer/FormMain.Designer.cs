@@ -31,7 +31,7 @@ namespace PaloAlto_syslog_visualizer
         private void InitializeComponent()
         {
             this.labelDebug = new System.Windows.Forms.Label();
-            this.buttonRefresh = new System.Windows.Forms.Button();
+            this.buttonSearch = new System.Windows.Forms.Button();
             this.buttonClean = new System.Windows.Forms.Button();
             this.dataGridViewLogs = new System.Windows.Forms.DataGridView();
             this.labelSouceAddress = new System.Windows.Forms.Label();
@@ -39,6 +39,12 @@ namespace PaloAlto_syslog_visualizer
             this.buttonPauseStartCapture = new System.Windows.Forms.Button();
             this.panelLogs = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBoxRuleName = new System.Windows.Forms.CheckBox();
+            this.textBoxRuleName = new System.Windows.Forms.TextBox();
+            this.labelRuleName = new System.Windows.Forms.Label();
+            this.checkBoxInboundInterface = new System.Windows.Forms.CheckBox();
+            this.textBoxInboundInterface = new System.Windows.Forms.TextBox();
+            this.labelInboundInterface = new System.Windows.Forms.Label();
             this.checkBoxAction = new System.Windows.Forms.CheckBox();
             this.textBoxAction = new System.Windows.Forms.TextBox();
             this.labelAction = new System.Windows.Forms.Label();
@@ -53,12 +59,6 @@ namespace PaloAlto_syslog_visualizer
             this.toolStripStatusSyslog = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusBuffer = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusTotal = new System.Windows.Forms.ToolStripStatusLabel();
-            this.checkBoxInboundInterface = new System.Windows.Forms.CheckBox();
-            this.textBoxInboundInterface = new System.Windows.Forms.TextBox();
-            this.labelInboundInterface = new System.Windows.Forms.Label();
-            this.checkBoxRuleName = new System.Windows.Forms.CheckBox();
-            this.textBoxRuleName = new System.Windows.Forms.TextBox();
-            this.labelRuleName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLogs)).BeginInit();
             this.panelLogs.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -74,16 +74,16 @@ namespace PaloAlto_syslog_visualizer
             this.labelDebug.TabIndex = 0;
             this.labelDebug.Text = "labelDebug";
             // 
-            // buttonRefresh
+            // buttonSearch
             // 
-            this.buttonRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonRefresh.Location = new System.Drawing.Point(1409, 12);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(75, 23);
-            this.buttonRefresh.TabIndex = 1;
-            this.buttonRefresh.Text = "Refresh";
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSearch.Location = new System.Drawing.Point(1409, 12);
+            this.buttonSearch.Name = "buttonSearch";
+            this.buttonSearch.Size = new System.Drawing.Size(75, 23);
+            this.buttonSearch.TabIndex = 1;
+            this.buttonSearch.Text = "Search";
+            this.buttonSearch.UseVisualStyleBackColor = true;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // buttonClean
             // 
@@ -170,6 +170,58 @@ namespace PaloAlto_syslog_visualizer
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(928, 45);
             this.panel1.TabIndex = 6;
+            // 
+            // checkBoxRuleName
+            // 
+            this.checkBoxRuleName.AutoSize = true;
+            this.checkBoxRuleName.Location = new System.Drawing.Point(891, 22);
+            this.checkBoxRuleName.Name = "checkBoxRuleName";
+            this.checkBoxRuleName.Size = new System.Drawing.Size(29, 17);
+            this.checkBoxRuleName.TabIndex = 21;
+            this.checkBoxRuleName.Text = "!";
+            this.checkBoxRuleName.UseVisualStyleBackColor = true;
+            // 
+            // textBoxRuleName
+            // 
+            this.textBoxRuleName.Location = new System.Drawing.Point(711, 22);
+            this.textBoxRuleName.Name = "textBoxRuleName";
+            this.textBoxRuleName.Size = new System.Drawing.Size(174, 20);
+            this.textBoxRuleName.TabIndex = 20;
+            // 
+            // labelRuleName
+            // 
+            this.labelRuleName.AutoSize = true;
+            this.labelRuleName.Location = new System.Drawing.Point(708, 6);
+            this.labelRuleName.Name = "labelRuleName";
+            this.labelRuleName.Size = new System.Drawing.Size(61, 13);
+            this.labelRuleName.TabIndex = 19;
+            this.labelRuleName.Text = "Rule name:";
+            // 
+            // checkBoxInboundInterface
+            // 
+            this.checkBoxInboundInterface.AutoSize = true;
+            this.checkBoxInboundInterface.Location = new System.Drawing.Point(676, 23);
+            this.checkBoxInboundInterface.Name = "checkBoxInboundInterface";
+            this.checkBoxInboundInterface.Size = new System.Drawing.Size(29, 17);
+            this.checkBoxInboundInterface.TabIndex = 18;
+            this.checkBoxInboundInterface.Text = "!";
+            this.checkBoxInboundInterface.UseVisualStyleBackColor = true;
+            // 
+            // textBoxInboundInterface
+            // 
+            this.textBoxInboundInterface.Location = new System.Drawing.Point(570, 22);
+            this.textBoxInboundInterface.Name = "textBoxInboundInterface";
+            this.textBoxInboundInterface.Size = new System.Drawing.Size(100, 20);
+            this.textBoxInboundInterface.TabIndex = 17;
+            // 
+            // labelInboundInterface
+            // 
+            this.labelInboundInterface.AutoSize = true;
+            this.labelInboundInterface.Location = new System.Drawing.Point(567, 6);
+            this.labelInboundInterface.Name = "labelInboundInterface";
+            this.labelInboundInterface.Size = new System.Drawing.Size(90, 13);
+            this.labelInboundInterface.TabIndex = 16;
+            this.labelInboundInterface.Text = "Inbound interface";
             // 
             // checkBoxAction
             // 
@@ -291,58 +343,6 @@ namespace PaloAlto_syslog_visualizer
             this.toolStripStatusTotal.Size = new System.Drawing.Size(69, 17);
             this.toolStripStatusTotal.Text = "Total logs: 0";
             // 
-            // checkBoxInboundInterface
-            // 
-            this.checkBoxInboundInterface.AutoSize = true;
-            this.checkBoxInboundInterface.Location = new System.Drawing.Point(676, 23);
-            this.checkBoxInboundInterface.Name = "checkBoxInboundInterface";
-            this.checkBoxInboundInterface.Size = new System.Drawing.Size(29, 17);
-            this.checkBoxInboundInterface.TabIndex = 18;
-            this.checkBoxInboundInterface.Text = "!";
-            this.checkBoxInboundInterface.UseVisualStyleBackColor = true;
-            // 
-            // textBoxInboundInterface
-            // 
-            this.textBoxInboundInterface.Location = new System.Drawing.Point(570, 22);
-            this.textBoxInboundInterface.Name = "textBoxInboundInterface";
-            this.textBoxInboundInterface.Size = new System.Drawing.Size(100, 20);
-            this.textBoxInboundInterface.TabIndex = 17;
-            // 
-            // labelInboundInterface
-            // 
-            this.labelInboundInterface.AutoSize = true;
-            this.labelInboundInterface.Location = new System.Drawing.Point(567, 6);
-            this.labelInboundInterface.Name = "labelInboundInterface";
-            this.labelInboundInterface.Size = new System.Drawing.Size(90, 13);
-            this.labelInboundInterface.TabIndex = 16;
-            this.labelInboundInterface.Text = "Inbound interface";
-            // 
-            // checkBoxRuleName
-            // 
-            this.checkBoxRuleName.AutoSize = true;
-            this.checkBoxRuleName.Location = new System.Drawing.Point(891, 22);
-            this.checkBoxRuleName.Name = "checkBoxRuleName";
-            this.checkBoxRuleName.Size = new System.Drawing.Size(29, 17);
-            this.checkBoxRuleName.TabIndex = 21;
-            this.checkBoxRuleName.Text = "!";
-            this.checkBoxRuleName.UseVisualStyleBackColor = true;
-            // 
-            // textBoxRuleName
-            // 
-            this.textBoxRuleName.Location = new System.Drawing.Point(711, 22);
-            this.textBoxRuleName.Name = "textBoxRuleName";
-            this.textBoxRuleName.Size = new System.Drawing.Size(174, 20);
-            this.textBoxRuleName.TabIndex = 20;
-            // 
-            // labelRuleName
-            // 
-            this.labelRuleName.AutoSize = true;
-            this.labelRuleName.Location = new System.Drawing.Point(708, 6);
-            this.labelRuleName.Name = "labelRuleName";
-            this.labelRuleName.Size = new System.Drawing.Size(61, 13);
-            this.labelRuleName.TabIndex = 19;
-            this.labelRuleName.Text = "Rule name:";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -352,7 +352,7 @@ namespace PaloAlto_syslog_visualizer
             this.Controls.Add(this.panelLogs);
             this.Controls.Add(this.buttonPauseStartCapture);
             this.Controls.Add(this.buttonClean);
-            this.Controls.Add(this.buttonRefresh);
+            this.Controls.Add(this.buttonSearch);
             this.Controls.Add(this.labelDebug);
             this.Name = "FormMain";
             this.Text = "PaloAlto Syslog Visualizer";
@@ -372,11 +372,10 @@ namespace PaloAlto_syslog_visualizer
         #endregion
 
         private System.Windows.Forms.Label labelDebug;
-        private System.Windows.Forms.Button buttonRefresh;
+        private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.Button buttonClean;
         private System.Windows.Forms.DataGridView dataGridViewLogs;
         private System.Windows.Forms.Label labelSouceAddress;
-        private System.Windows.Forms.TextBox textBoxSouceAddress;
         private System.Windows.Forms.Button buttonPauseStartCapture;
 
         public void SetLabelDebug(string text)
@@ -427,6 +426,7 @@ namespace PaloAlto_syslog_visualizer
         private CheckBox checkBoxInboundInterface;
         private TextBox textBoxInboundInterface;
         private Label labelInboundInterface;
+        private TextBox textBoxSouceAddress;
     }
 }
 
