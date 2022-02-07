@@ -30,7 +30,6 @@ namespace PaloAlto_syslog_visualizer
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelDebug = new System.Windows.Forms.Label();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.buttonClean = new System.Windows.Forms.Button();
             this.dataGridViewLogs = new System.Windows.Forms.DataGridView();
@@ -38,6 +37,7 @@ namespace PaloAlto_syslog_visualizer
             this.textBoxSouceAddress = new System.Windows.Forms.TextBox();
             this.buttonPauseStartCapture = new System.Windows.Forms.Button();
             this.panelLogs = new System.Windows.Forms.Panel();
+            this.lableSearchTip = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkBoxRuleName = new System.Windows.Forms.CheckBox();
             this.textBoxRuleName = new System.Windows.Forms.TextBox();
@@ -65,19 +65,10 @@ namespace PaloAlto_syslog_visualizer
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // labelDebug
-            // 
-            this.labelDebug.AutoSize = true;
-            this.labelDebug.Location = new System.Drawing.Point(12, 762);
-            this.labelDebug.Name = "labelDebug";
-            this.labelDebug.Size = new System.Drawing.Size(61, 13);
-            this.labelDebug.TabIndex = 0;
-            this.labelDebug.Text = "labelDebug";
-            // 
             // buttonSearch
             // 
             this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSearch.Location = new System.Drawing.Point(1409, 12);
+            this.buttonSearch.Location = new System.Drawing.Point(1418, 9);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(75, 23);
             this.buttonSearch.TabIndex = 1;
@@ -88,7 +79,7 @@ namespace PaloAlto_syslog_visualizer
             // buttonClean
             // 
             this.buttonClean.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClean.Location = new System.Drawing.Point(1328, 12);
+            this.buttonClean.Location = new System.Drawing.Point(1314, 9);
             this.buttonClean.Name = "buttonClean";
             this.buttonClean.Size = new System.Drawing.Size(75, 23);
             this.buttonClean.TabIndex = 2;
@@ -104,7 +95,7 @@ namespace PaloAlto_syslog_visualizer
             this.dataGridViewLogs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewLogs.Location = new System.Drawing.Point(3, 51);
             this.dataGridViewLogs.Name = "dataGridViewLogs";
-            this.dataGridViewLogs.Size = new System.Drawing.Size(1466, 664);
+            this.dataGridViewLogs.Size = new System.Drawing.Size(1490, 802);
             this.dataGridViewLogs.TabIndex = 3;
             // 
             // labelSouceAddress
@@ -126,7 +117,7 @@ namespace PaloAlto_syslog_visualizer
             // buttonPauseStartCapture
             // 
             this.buttonPauseStartCapture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonPauseStartCapture.Location = new System.Drawing.Point(1189, 12);
+            this.buttonPauseStartCapture.Location = new System.Drawing.Point(1198, 9);
             this.buttonPauseStartCapture.Name = "buttonPauseStartCapture";
             this.buttonPauseStartCapture.Size = new System.Drawing.Size(110, 23);
             this.buttonPauseStartCapture.TabIndex = 7;
@@ -139,12 +130,26 @@ namespace PaloAlto_syslog_visualizer
             this.panelLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelLogs.Controls.Add(this.lableSearchTip);
             this.panelLogs.Controls.Add(this.panel1);
+            this.panelLogs.Controls.Add(this.buttonSearch);
+            this.panelLogs.Controls.Add(this.buttonClean);
+            this.panelLogs.Controls.Add(this.buttonPauseStartCapture);
             this.panelLogs.Controls.Add(this.dataGridViewLogs);
-            this.panelLogs.Location = new System.Drawing.Point(12, 41);
+            this.panelLogs.Location = new System.Drawing.Point(0, 2);
             this.panelLogs.Name = "panelLogs";
-            this.panelLogs.Size = new System.Drawing.Size(1472, 718);
+            this.panelLogs.Size = new System.Drawing.Size(1496, 856);
             this.panelLogs.TabIndex = 8;
+            // 
+            // lableSearchTip
+            // 
+            this.lableSearchTip.AutoSize = true;
+            this.lableSearchTip.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lableSearchTip.Location = new System.Drawing.Point(507, 331);
+            this.lableSearchTip.Name = "lableSearchTip";
+            this.lableSearchTip.Size = new System.Drawing.Size(414, 29);
+            this.lableSearchTip.TabIndex = 7;
+            this.lableSearchTip.Text = "Press \"Search\" to show captured data";
             // 
             // panel1
             // 
@@ -209,15 +214,15 @@ namespace PaloAlto_syslog_visualizer
             // 
             // textBoxInboundInterface
             // 
-            this.textBoxInboundInterface.Location = new System.Drawing.Point(570, 22);
+            this.textBoxInboundInterface.Location = new System.Drawing.Point(559, 22);
             this.textBoxInboundInterface.Name = "textBoxInboundInterface";
-            this.textBoxInboundInterface.Size = new System.Drawing.Size(100, 20);
+            this.textBoxInboundInterface.Size = new System.Drawing.Size(111, 20);
             this.textBoxInboundInterface.TabIndex = 17;
             // 
             // labelInboundInterface
             // 
             this.labelInboundInterface.AutoSize = true;
-            this.labelInboundInterface.Location = new System.Drawing.Point(567, 6);
+            this.labelInboundInterface.Location = new System.Drawing.Point(556, 6);
             this.labelInboundInterface.Name = "labelInboundInterface";
             this.labelInboundInterface.Size = new System.Drawing.Size(90, 13);
             this.labelInboundInterface.TabIndex = 16;
@@ -226,7 +231,7 @@ namespace PaloAlto_syslog_visualizer
             // checkBoxAction
             // 
             this.checkBoxAction.AutoSize = true;
-            this.checkBoxAction.Location = new System.Drawing.Point(535, 23);
+            this.checkBoxAction.Location = new System.Drawing.Point(524, 22);
             this.checkBoxAction.Name = "checkBoxAction";
             this.checkBoxAction.Size = new System.Drawing.Size(29, 17);
             this.checkBoxAction.TabIndex = 15;
@@ -236,7 +241,7 @@ namespace PaloAlto_syslog_visualizer
             // 
             // textBoxAction
             // 
-            this.textBoxAction.Location = new System.Drawing.Point(429, 22);
+            this.textBoxAction.Location = new System.Drawing.Point(418, 22);
             this.textBoxAction.Name = "textBoxAction";
             this.textBoxAction.Size = new System.Drawing.Size(100, 20);
             this.textBoxAction.TabIndex = 14;
@@ -245,7 +250,7 @@ namespace PaloAlto_syslog_visualizer
             // labelAction
             // 
             this.labelAction.AutoSize = true;
-            this.labelAction.Location = new System.Drawing.Point(426, 6);
+            this.labelAction.Location = new System.Drawing.Point(415, 6);
             this.labelAction.Name = "labelAction";
             this.labelAction.Size = new System.Drawing.Size(40, 13);
             this.labelAction.TabIndex = 13;
@@ -254,7 +259,7 @@ namespace PaloAlto_syslog_visualizer
             // checkBoxDestinationPort
             // 
             this.checkBoxDestinationPort.AutoSize = true;
-            this.checkBoxDestinationPort.Location = new System.Drawing.Point(394, 23);
+            this.checkBoxDestinationPort.Location = new System.Drawing.Point(383, 22);
             this.checkBoxDestinationPort.Name = "checkBoxDestinationPort";
             this.checkBoxDestinationPort.Size = new System.Drawing.Size(29, 17);
             this.checkBoxDestinationPort.TabIndex = 12;
@@ -350,16 +355,13 @@ namespace PaloAlto_syslog_visualizer
             this.ClientSize = new System.Drawing.Size(1496, 883);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panelLogs);
-            this.Controls.Add(this.buttonPauseStartCapture);
-            this.Controls.Add(this.buttonClean);
-            this.Controls.Add(this.buttonSearch);
-            this.Controls.Add(this.labelDebug);
             this.Name = "FormMain";
             this.Text = "PaloAlto Syslog Visualizer";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLogs)).EndInit();
             this.panelLogs.ResumeLayout(false);
+            this.panelLogs.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -370,26 +372,11 @@ namespace PaloAlto_syslog_visualizer
         }
 
         #endregion
-
-        private System.Windows.Forms.Label labelDebug;
         private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.Button buttonClean;
         private System.Windows.Forms.DataGridView dataGridViewLogs;
         private System.Windows.Forms.Label labelSouceAddress;
         private System.Windows.Forms.Button buttonPauseStartCapture;
-
-        public void SetLabelDebug(string text)
-        {
-            // using labelDebug after destroy the form (closing the app) it try to access a destroyed form
-            try
-            {
-                this.Invoke(new MethodInvoker(delegate { labelDebug.Text = text; }));
-            }
-            catch
-            {
-                ;
-            }
-        }
 
         public void SetStatusValues(uint buffer, uint total)
         {
@@ -427,6 +414,7 @@ namespace PaloAlto_syslog_visualizer
         private TextBox textBoxInboundInterface;
         private Label labelInboundInterface;
         private TextBox textBoxSouceAddress;
+        private Label lableSearchTip;
     }
 }
 

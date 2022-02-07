@@ -16,7 +16,7 @@ namespace PaloAlto_syslog_visualizer
         static FormMain formMain;
         static UdpClient udpListener;
         static public StructEntryLog[] database;
-        static public uint databaseSize = 10000;
+        static public uint databaseSize = 50000;
         static public int databaseIndexLastItem = -1;
         static public uint databaseTotalWrite = 0;
         static public bool databaseOverwrite = false;
@@ -96,8 +96,6 @@ namespace PaloAlto_syslog_visualizer
             string sReceive;
             string sourceIP;
 
-            formMain.SetLabelDebug("start capture");
-
             while (true)
             {
                 try
@@ -149,9 +147,9 @@ namespace PaloAlto_syslog_visualizer
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    formMain.SetLabelDebug(ex.ToString());
+                    ;
                 }
             }
         }

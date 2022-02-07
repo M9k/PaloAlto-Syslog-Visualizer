@@ -26,6 +26,7 @@ namespace PaloAlto_syslog_visualizer
 
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
+            lableSearchTip.Visible = false;
             DataTable dt = new DataTable();
             dt.Columns.Add("Receive Time", typeof(string));
             dt.Columns.Add("Source Address", typeof(string));
@@ -86,13 +87,29 @@ namespace PaloAlto_syslog_visualizer
             int lastItemWrited = (int)Program.databaseIndexLastItem;
             if (lastItemWrited != -1)
             {
+                int indexOfSourceAddress, indexOfDestinationAddress, indexOfDestinationPort, indexOfAction, indexOfInboundInterface, indexOfRuleName;
                 for (int indexDB = lastItemWrited; indexDB > 0 && itemLeftToPrint > 0; indexDB--)
                 {
                     if (searchIsOn)
                     {
-                        // TODO: check if search condition is match
-                        // PS: check if the search is negate or not
+                        indexOfSourceAddress = Program.database[indexDB].strSourceAddress.IndexOf(textBoxSouceAddress.Text, StringComparison.CurrentCultureIgnoreCase);
+                        indexOfDestinationAddress = Program.database[indexDB].strDestinationAddress.IndexOf(textBoxDestinationAddress.Text, StringComparison.CurrentCultureIgnoreCase);
+                        indexOfDestinationPort = Program.database[indexDB].strDestinationPort.IndexOf(textBoxDestinationPort.Text, StringComparison.CurrentCultureIgnoreCase);
+                        indexOfAction = Program.database[indexDB].strAction.IndexOf(textBoxAction.Text, StringComparison.CurrentCultureIgnoreCase);
+                        indexOfInboundInterface = Program.database[indexDB].strInboundInterface.IndexOf(textBoxInboundInterface.Text, StringComparison.CurrentCultureIgnoreCase);
+                        indexOfRuleName = Program.database[indexDB].strRuleName.IndexOf(textBoxRuleName.Text, StringComparison.CurrentCultureIgnoreCase);
 
+                        if ((!searchBySourceAddress || (checkBoxSouceAddress.Checked ? indexOfSourceAddress == -1 : indexOfSourceAddress != -1)) &&
+                            (!searchByDestinationAddress || (checkBoxDestinationAddress.Checked ? indexOfDestinationAddress == -1 : indexOfDestinationAddress != -1)) &&
+                            (!searchByDestinationPort || (checkBoxDestinationPort.Checked ? indexOfDestinationPort == -1 : indexOfDestinationPort != -1)) &&
+                            (!searchByAction || (checkBoxAction.Checked ? indexOfAction == -1 : indexOfAction != -1)) &&
+                            (!searchByInboundInterface || (checkBoxInboundInterface.Checked ? indexOfInboundInterface == -1 : indexOfInboundInterface != -1)) &&
+                            (!searchByRuleName || (checkBoxRuleName.Checked ? indexOfRuleName == -1 : indexOfRuleName != -1)) 
+                            )
+                        {
+                            dt.Rows.Add(Program.database[indexDB].getAll);
+                            itemLeftToPrint--;
+                        }
                     }
                     else
                     {
@@ -108,8 +125,24 @@ namespace PaloAlto_syslog_visualizer
                     {
                         if (searchIsOn)
                         {
-                            // TODO: check if search condition is match
-                            // PS: check if the search is negate or not
+                            indexOfSourceAddress = Program.database[indexDB].strSourceAddress.IndexOf(textBoxSouceAddress.Text, StringComparison.CurrentCultureIgnoreCase);
+                            indexOfDestinationAddress = Program.database[indexDB].strDestinationAddress.IndexOf(textBoxDestinationAddress.Text, StringComparison.CurrentCultureIgnoreCase);
+                            indexOfDestinationPort = Program.database[indexDB].strDestinationPort.IndexOf(textBoxDestinationPort.Text, StringComparison.CurrentCultureIgnoreCase);
+                            indexOfAction = Program.database[indexDB].strAction.IndexOf(textBoxAction.Text, StringComparison.CurrentCultureIgnoreCase);
+                            indexOfInboundInterface = Program.database[indexDB].strInboundInterface.IndexOf(textBoxInboundInterface.Text, StringComparison.CurrentCultureIgnoreCase);
+                            indexOfRuleName = Program.database[indexDB].strRuleName.IndexOf(textBoxRuleName.Text, StringComparison.CurrentCultureIgnoreCase);
+
+                            if ((!searchBySourceAddress || (checkBoxSouceAddress.Checked ? indexOfSourceAddress == -1 : indexOfSourceAddress != -1)) &&
+                                (!searchByDestinationAddress || (checkBoxDestinationAddress.Checked ? indexOfDestinationAddress == -1 : indexOfDestinationAddress != -1)) &&
+                                (!searchByDestinationPort || (checkBoxDestinationPort.Checked ? indexOfDestinationPort == -1 : indexOfDestinationPort != -1)) &&
+                                (!searchByAction || (checkBoxAction.Checked ? indexOfAction == -1 : indexOfAction != -1)) &&
+                                (!searchByInboundInterface || (checkBoxInboundInterface.Checked ? indexOfInboundInterface == -1 : indexOfInboundInterface != -1)) &&
+                                (!searchByRuleName || (checkBoxRuleName.Checked ? indexOfRuleName == -1 : indexOfRuleName != -1))
+                                )
+                            {
+                                dt.Rows.Add(Program.database[indexDB].getAll);
+                                itemLeftToPrint--;
+                            }
                         }
                         else {
                             dt.Rows.Add(Program.database[indexDB].getAll);
@@ -176,5 +209,6 @@ namespace PaloAlto_syslog_visualizer
         {
 
         }
+
     }
 }
