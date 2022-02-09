@@ -21,9 +21,6 @@ namespace PaloAlto_syslog_visualizer
         static public uint databaseTotalWrite = 0;
         static public bool databaseOverwrite = false;
 
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
@@ -47,12 +44,6 @@ namespace PaloAlto_syslog_visualizer
         internal static void StartCapture()
         {
             database = new StructEntryLog[databaseSize];
-            // create a fake entry - for initial testing
-            // StructEntryLog test = new StructEntryLog("a","b","c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c");
-
-            // use fake data - for initial testing
-            //for (int i = 0; i < databaseSize; i++)
-            //    database[i] = new StructEntryLog("a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c");
 
             receiveThread = new Thread(ThreadReceive);
             receiveThread.Start();

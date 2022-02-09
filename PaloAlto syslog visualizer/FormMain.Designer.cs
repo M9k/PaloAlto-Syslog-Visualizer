@@ -237,7 +237,6 @@ namespace PaloAlto_syslog_visualizer
             this.checkBoxAction.TabIndex = 15;
             this.checkBoxAction.Text = "!";
             this.checkBoxAction.UseVisualStyleBackColor = true;
-            this.checkBoxAction.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // textBoxAction
             // 
@@ -245,7 +244,6 @@ namespace PaloAlto_syslog_visualizer
             this.textBoxAction.Name = "textBoxAction";
             this.textBoxAction.Size = new System.Drawing.Size(100, 20);
             this.textBoxAction.TabIndex = 14;
-            this.textBoxAction.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // labelAction
             // 

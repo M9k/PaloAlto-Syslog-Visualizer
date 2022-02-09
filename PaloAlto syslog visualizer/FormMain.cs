@@ -24,88 +24,122 @@ namespace PaloAlto_syslog_visualizer
 
         }
 
+        private String[] columnsHeader =
+        {
+            "Receive Time",
+            "Source Address",
+            "Destination Address",
+            "NAT Source IP",
+            "NAT Destination Address",
+            "Rule Name",
+            "Destination User",
+            "Application",
+            "Source Zone",
+            "Destination Zone",
+            "Inbound Interface",
+            "Outbound Interface",
+            "Sessione ID",
+            "Source Port",
+            "Destioantion Port",
+            "NAT Source Port",
+            "NAT Destionation Port",
+            "Flags",
+            "Protocol",
+            "Action",
+            "Bytes",
+            "Bytes Received",
+            "Bytes Sent",
+            "Packets",
+            "Elapsed Time",
+            "Category",
+            "Packets Sent",
+            "Packets Received",
+            "Session End Reason",
+            "Action Source"
+        };
+
+        private enum searchParameter
+        {
+            SourceAddress,
+            DestinationAddress,
+            DestinationPort,
+            Action,
+            InboundInterface,
+            RuleName
+        };
+
+        private int[] getIndexOfIndexSearchParameter(int indexDB)
+        {
+            int[] indexOfIndexSearchParameter = new int[Enum.GetNames(typeof(searchParameter)).Length];
+            indexOfIndexSearchParameter[(int)searchParameter.SourceAddress] = Program.database[indexDB].strSourceAddress.IndexOf(textBoxSouceAddress.Text, StringComparison.CurrentCultureIgnoreCase);
+            indexOfIndexSearchParameter[(int)searchParameter.DestinationAddress] = Program.database[indexDB].strDestinationAddress.IndexOf(textBoxDestinationAddress.Text, StringComparison.CurrentCultureIgnoreCase);
+            indexOfIndexSearchParameter[(int)searchParameter.DestinationPort] = Program.database[indexDB].strDestinationPort.IndexOf(textBoxDestinationPort.Text, StringComparison.CurrentCultureIgnoreCase);
+            indexOfIndexSearchParameter[(int)searchParameter.Action] = Program.database[indexDB].strAction.IndexOf(textBoxAction.Text, StringComparison.CurrentCultureIgnoreCase);
+            indexOfIndexSearchParameter[(int)searchParameter.InboundInterface] = Program.database[indexDB].strInboundInterface.IndexOf(textBoxInboundInterface.Text, StringComparison.CurrentCultureIgnoreCase);
+            indexOfIndexSearchParameter[(int)searchParameter.RuleName] = Program.database[indexDB].strRuleName.IndexOf(textBoxRuleName.Text, StringComparison.CurrentCultureIgnoreCase);
+            
+            return indexOfIndexSearchParameter;
+        }
+
+        private bool[] getCheckBoxCheckedSearchParameter()
+        {
+            bool[] checkBoxCheckedSearchParameter = new bool[Enum.GetNames(typeof(searchParameter)).Length];
+            checkBoxCheckedSearchParameter[(int)searchParameter.SourceAddress] = checkBoxSouceAddress.Checked;
+            checkBoxCheckedSearchParameter[(int)searchParameter.DestinationAddress] = checkBoxDestinationAddress.Checked;
+            checkBoxCheckedSearchParameter[(int)searchParameter.DestinationPort] = checkBoxDestinationPort.Checked;
+            checkBoxCheckedSearchParameter[(int)searchParameter.Action] = checkBoxAction.Checked;
+            checkBoxCheckedSearchParameter[(int)searchParameter.InboundInterface] = checkBoxInboundInterface.Checked;
+            checkBoxCheckedSearchParameter[(int)searchParameter.RuleName] = checkBoxRuleName.Checked;
+
+            return checkBoxCheckedSearchParameter;
+        }
+
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             lableSearchTip.Visible = false;
             DataTable dt = new DataTable();
-            dt.Columns.Add("Receive Time", typeof(string));
-            dt.Columns.Add("Source Address", typeof(string));
-            dt.Columns.Add("Destination Address", typeof(string));
-            dt.Columns.Add("NAT Source IP", typeof(string));
-            dt.Columns.Add("NAT Destination Address", typeof(string));
-            dt.Columns.Add("Rule Name", typeof(string));
-            dt.Columns.Add("Destination User", typeof(string));
-            dt.Columns.Add("Application", typeof(string));
-            dt.Columns.Add("Source Zone", typeof(string));
-            dt.Columns.Add("Destination Zone", typeof(string));
-            dt.Columns.Add("Inbound Interface", typeof(string));
-            dt.Columns.Add("Outbound Interface", typeof(string));
-            dt.Columns.Add("Sessione ID", typeof(string));
-            dt.Columns.Add("Source Port", typeof(string));
-            dt.Columns.Add("Destioantion Port", typeof(string));
-            dt.Columns.Add("NAT Source Port", typeof(string));
-            dt.Columns.Add("NAT Destionation Port", typeof(string));
-            dt.Columns.Add("Flags", typeof(string));
-            dt.Columns.Add("Protocol", typeof(string));
-            dt.Columns.Add("Action", typeof(string));
-            dt.Columns.Add("Bytes", typeof(string));
-            dt.Columns.Add("Bytes Received", typeof(string));
-            dt.Columns.Add("Bytes Sent", typeof(string));
-            dt.Columns.Add("Packets", typeof(string));
-            dt.Columns.Add("Elapsed Time", typeof(string));
-            dt.Columns.Add("Category", typeof(string));
-            dt.Columns.Add("Packets Sent", typeof(string));
-            dt.Columns.Add("Packets Received", typeof(string));
-            dt.Columns.Add("Session End Reason", typeof(string));
-            dt.Columns.Add("Action Source", typeof(string));
 
-            bool searchBySourceAddress = false;
-            bool searchByDestinationAddress = false;
-            bool searchByDestinationPort = false;
-            bool searchByAction = false;
-            bool searchByInboundInterface = false;
-            bool searchByRuleName = false;
-            bool searchIsOn = false;
+
+            foreach (String column in columnsHeader)
+                dt.Columns.Add(column, typeof(string));
+
+            bool[] searchByParameter = new bool[Enum.GetNames(typeof(searchParameter)).Length]; //all false by default
 
             if (textBoxSouceAddress.Text != "")
-                searchBySourceAddress = true;
+                searchByParameter[(int)searchParameter.SourceAddress] = true;
             if (textBoxDestinationAddress.Text != "")
-                searchByDestinationAddress = true;
+                searchByParameter[(int)searchParameter.DestinationAddress] = true;
             if (textBoxDestinationPort.Text != "")
-                searchByDestinationPort = true;
+                searchByParameter[(int)searchParameter.DestinationPort] = true;
             if (textBoxAction.Text != "")
-                searchByAction = true;
+                searchByParameter[(int)searchParameter.Action] = true;
             if (textBoxInboundInterface.Text != "")
-                searchByInboundInterface = true;
+                searchByParameter[(int)searchParameter.InboundInterface] = true;
             if (textBoxRuleName.Text != "")
-                searchByRuleName = true;
-            if (searchBySourceAddress || searchByDestinationAddress || searchByDestinationPort ||
-                searchByAction || searchByInboundInterface || searchByRuleName)
-                searchIsOn = true;
+                searchByParameter[(int)searchParameter.RuleName] = true;
+
+            bool searchIsOn = false;
+            foreach (int enumIndex in Enum.GetValues(typeof(searchParameter)))
+                if (searchByParameter[enumIndex])
+                    searchIsOn = true;
 
             int itemLeftToPrint = 50;
             int lastItemWrited = (int)Program.databaseIndexLastItem;
             if (lastItemWrited != -1)
             {
-                int indexOfSourceAddress, indexOfDestinationAddress, indexOfDestinationPort, indexOfAction, indexOfInboundInterface, indexOfRuleName;
+                bool[] checkBoxCheckedSearchParameter = getCheckBoxCheckedSearchParameter();
                 for (int indexDB = lastItemWrited; indexDB > 0 && itemLeftToPrint > 0; indexDB--)
                 {
                     if (searchIsOn)
                     {
-                        indexOfSourceAddress = Program.database[indexDB].strSourceAddress.IndexOf(textBoxSouceAddress.Text, StringComparison.CurrentCultureIgnoreCase);
-                        indexOfDestinationAddress = Program.database[indexDB].strDestinationAddress.IndexOf(textBoxDestinationAddress.Text, StringComparison.CurrentCultureIgnoreCase);
-                        indexOfDestinationPort = Program.database[indexDB].strDestinationPort.IndexOf(textBoxDestinationPort.Text, StringComparison.CurrentCultureIgnoreCase);
-                        indexOfAction = Program.database[indexDB].strAction.IndexOf(textBoxAction.Text, StringComparison.CurrentCultureIgnoreCase);
-                        indexOfInboundInterface = Program.database[indexDB].strInboundInterface.IndexOf(textBoxInboundInterface.Text, StringComparison.CurrentCultureIgnoreCase);
-                        indexOfRuleName = Program.database[indexDB].strRuleName.IndexOf(textBoxRuleName.Text, StringComparison.CurrentCultureIgnoreCase);
+                        int[] indexOfIndexSearchParameter = getIndexOfIndexSearchParameter(indexDB);
 
-                        if ((!searchBySourceAddress || (checkBoxSouceAddress.Checked ? indexOfSourceAddress == -1 : indexOfSourceAddress != -1)) &&
-                            (!searchByDestinationAddress || (checkBoxDestinationAddress.Checked ? indexOfDestinationAddress == -1 : indexOfDestinationAddress != -1)) &&
-                            (!searchByDestinationPort || (checkBoxDestinationPort.Checked ? indexOfDestinationPort == -1 : indexOfDestinationPort != -1)) &&
-                            (!searchByAction || (checkBoxAction.Checked ? indexOfAction == -1 : indexOfAction != -1)) &&
-                            (!searchByInboundInterface || (checkBoxInboundInterface.Checked ? indexOfInboundInterface == -1 : indexOfInboundInterface != -1)) &&
-                            (!searchByRuleName || (checkBoxRuleName.Checked ? indexOfRuleName == -1 : indexOfRuleName != -1)) 
-                            )
+                        bool matchTheFilter = true;
+                        foreach (int enumIndex in Enum.GetValues(typeof(searchParameter)))
+                            if (matchTheFilter) //if it's false I don't care anymore
+                                matchTheFilter = !searchByParameter[enumIndex] || (checkBoxCheckedSearchParameter[enumIndex] ? indexOfIndexSearchParameter[enumIndex] == -1 : indexOfIndexSearchParameter[enumIndex] != -1);
+
+                        if(matchTheFilter)
                         {
                             dt.Rows.Add(Program.database[indexDB].getAll);
                             itemLeftToPrint--;
@@ -125,20 +159,14 @@ namespace PaloAlto_syslog_visualizer
                     {
                         if (searchIsOn)
                         {
-                            indexOfSourceAddress = Program.database[indexDB].strSourceAddress.IndexOf(textBoxSouceAddress.Text, StringComparison.CurrentCultureIgnoreCase);
-                            indexOfDestinationAddress = Program.database[indexDB].strDestinationAddress.IndexOf(textBoxDestinationAddress.Text, StringComparison.CurrentCultureIgnoreCase);
-                            indexOfDestinationPort = Program.database[indexDB].strDestinationPort.IndexOf(textBoxDestinationPort.Text, StringComparison.CurrentCultureIgnoreCase);
-                            indexOfAction = Program.database[indexDB].strAction.IndexOf(textBoxAction.Text, StringComparison.CurrentCultureIgnoreCase);
-                            indexOfInboundInterface = Program.database[indexDB].strInboundInterface.IndexOf(textBoxInboundInterface.Text, StringComparison.CurrentCultureIgnoreCase);
-                            indexOfRuleName = Program.database[indexDB].strRuleName.IndexOf(textBoxRuleName.Text, StringComparison.CurrentCultureIgnoreCase);
+                            int[] indexOfIndexSearchParameter = getIndexOfIndexSearchParameter(indexDB);
 
-                            if ((!searchBySourceAddress || (checkBoxSouceAddress.Checked ? indexOfSourceAddress == -1 : indexOfSourceAddress != -1)) &&
-                                (!searchByDestinationAddress || (checkBoxDestinationAddress.Checked ? indexOfDestinationAddress == -1 : indexOfDestinationAddress != -1)) &&
-                                (!searchByDestinationPort || (checkBoxDestinationPort.Checked ? indexOfDestinationPort == -1 : indexOfDestinationPort != -1)) &&
-                                (!searchByAction || (checkBoxAction.Checked ? indexOfAction == -1 : indexOfAction != -1)) &&
-                                (!searchByInboundInterface || (checkBoxInboundInterface.Checked ? indexOfInboundInterface == -1 : indexOfInboundInterface != -1)) &&
-                                (!searchByRuleName || (checkBoxRuleName.Checked ? indexOfRuleName == -1 : indexOfRuleName != -1))
-                                )
+                            bool matchTheFilter = true;
+                            foreach (int enumIndex in Enum.GetValues(typeof(searchParameter)))
+                                if (matchTheFilter) //if it's false I don't care anymore
+                                    matchTheFilter = !searchByParameter[enumIndex] || (checkBoxCheckedSearchParameter[enumIndex] ? indexOfIndexSearchParameter[enumIndex] == -1 : indexOfIndexSearchParameter[enumIndex] != -1);
+
+                            if (matchTheFilter)
                             {
                                 dt.Rows.Add(Program.database[indexDB].getAll);
                                 itemLeftToPrint--;
@@ -198,16 +226,6 @@ namespace PaloAlto_syslog_visualizer
             Program.StopCapture();
             Program.resetDB();
             Program.StartCapture();
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
     }
