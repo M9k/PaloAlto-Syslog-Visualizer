@@ -94,15 +94,8 @@ namespace PaloAlto_syslog_visualizer
             return checkBoxCheckedSearchParameter;
         }
 
-        private void buttonRefresh_Click(object sender, EventArgs e)
+        private bool[] getSearchByParameter()
         {
-            lableSearchTip.Visible = false;
-            DataTable dt = new DataTable();
-
-
-            foreach (String column in columnsHeader)
-                dt.Columns.Add(column, typeof(string));
-
             bool[] searchByParameter = new bool[Enum.GetNames(typeof(searchParameter)).Length]; //all false by default
 
             if (textBoxSouceAddress.Text != "")
@@ -117,6 +110,20 @@ namespace PaloAlto_syslog_visualizer
                 searchByParameter[(int)searchParameter.InboundInterface] = true;
             if (textBoxRuleName.Text != "")
                 searchByParameter[(int)searchParameter.RuleName] = true;
+
+            return searchByParameter;
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            lableSearchTip.Visible = false;
+            DataTable dt = new DataTable();
+
+
+            foreach (String column in columnsHeader)
+                dt.Columns.Add(column, typeof(string));
+
+            bool[] searchByParameter = getSearchByParameter();
 
             bool searchIsOn = false;
             foreach (int enumIndex in Enum.GetValues(typeof(searchParameter)))
