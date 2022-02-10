@@ -5,6 +5,7 @@ It use the standard port UDP 514.
 
 **Run it as amministrator!**
 
+![Screenshot](https://github.com/M9k/PaloAlto-syslog-visualizer/blob/master/Screenshot.png?raw=true)
 
 
 The program has a circular buffer of 50000 entry, the search show the last 50 events that match the search filter.
@@ -21,3 +22,4 @@ The complete field list is documented here: [Palo Alto Traffic log fields](https
 - Only traffic logs are supported for now.
 - Search is only possible on certain fields for now
 - Only for Windows.
+- I don't have a logo for the icon.
