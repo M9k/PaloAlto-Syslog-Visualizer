@@ -5,6 +5,8 @@ It use the standard port UDP 514.
 
 **Run it as amministrator!**
 
+![Screenshot](https://github.com/M9k/PaloAlto-syslog-visualizer/blob/master/Screenshot2.jpg?raw=true)
+
 ![Screenshot](https://github.com/M9k/PaloAlto-syslog-visualizer/blob/master/Screenshot.png?raw=true)
 
 
